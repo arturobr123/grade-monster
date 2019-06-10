@@ -4,6 +4,7 @@ import BadgeDetails from './BadgeDetails';
 import PageLoading from '../components/PageLoading';
 import PageError from '../components/PageError';
 import api from '../api';
+import {db} from '../firebase';
 
 class BadgeDetailsContainer extends React.Component {
   state = {
@@ -20,12 +21,18 @@ class BadgeDetailsContainer extends React.Component {
   fetchData = async () => {
     this.setState({ loading: true, error: null });
 
-    try {
-      const data = await api.badges.read(this.props.match.params.badgeId);
+    db.child(this.props.match.params.badgeId).once('value', snapshot => {
+      const values = snapshot.val();
+
+      const data = {
+        ...values,
+        id: this.props.match.params.badgeId,
+      }
+
       this.setState({ loading: false, data: data });
-    } catch (error) {
-      this.setState({ loading: false, error: error });
-    }
+    }, (error) => {
+        this.setState({ loading: false, error: error });
+    })
   };
 
   handleOpenModal = e => {
@@ -40,7 +47,7 @@ class BadgeDetailsContainer extends React.Component {
     this.setState({ loading: true, error: null });
 
     try {
-      await api.badges.remove(this.props.match.params.badgeId);
+      db.child(this.props.match.params.badgeId).remove();
       this.setState({ loading: false });
 
       this.props.history.push('/badges');

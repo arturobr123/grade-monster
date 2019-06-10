@@ -6,6 +6,7 @@ import Badge from '../components/Badge';
 import BadgeForm from '../components/BadgeForm';
 import PageLoading from '../components/PageLoading';
 import api from '../api';
+import {db} from '../firebase';
 
 class BadgeNew extends React.Component {
   state = {
@@ -14,9 +15,8 @@ class BadgeNew extends React.Component {
     form: {
       firstName: '',
       lastName: '',
-      email: '',
       jobTitle: '',
-      twitter: '',
+      type:''
     },
   };
 
@@ -27,6 +27,8 @@ class BadgeNew extends React.Component {
         [e.target.name]: e.target.value,
       },
     });
+
+    console.log(this.state);
   };
 
   handleSubmit = async e => {
@@ -34,7 +36,8 @@ class BadgeNew extends React.Component {
     this.setState({ loading: true, error: null });
 
     try {
-      await api.badges.create(this.state.form);
+      db.push(this.state.form);
+
       this.setState({ loading: false });
 
       this.props.history.push('/badges');
@@ -51,11 +54,6 @@ class BadgeNew extends React.Component {
     return (
       <React.Fragment>
         <div className="BadgeNew__hero">
-          <img
-            className="BadgeNew__hero-image img-fluid"
-            src={header}
-            alt="Logo"
-          />
         </div>
 
         <div className="container">
@@ -64,15 +62,14 @@ class BadgeNew extends React.Component {
               <Badge
                 firstName={this.state.form.firstName || 'FIRST_NAME'}
                 lastName={this.state.form.lastName || 'LAST_NAME'}
-                twitter={this.state.form.twitter || 'twitter'}
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
-                email={this.state.form.email || 'EMAIL'}
+                type={this.state.form.type || 'TYPE'}
                 avatarUrl="https://www.gravatar.com/avatar/21594ed15d68ace3965642162f8d2e84?d=identicon"
               />
             </div>
 
             <div className="col-6">
-              <h1>New Attendant</h1>
+              <h1>New Character</h1>
               <BadgeForm
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}

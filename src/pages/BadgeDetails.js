@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './styles/BadgeDetails.css';
-import confLogo from '../images/platziconf-logo.svg';
 import Badge from '../components/Badge';
 import DeleteBadgeModal from '../components/DeleteBadgeModal';
 
@@ -15,7 +14,6 @@ function BadgeDetails(props) {
         <div className="container">
           <div className="row">
             <div className="col-6">
-              <img src={confLogo} alt="Logo de la Conferencia" />
             </div>
             <div className="col-6 BadgeDetails__hero-attendant-name">
               <h1>
@@ -32,9 +30,8 @@ function BadgeDetails(props) {
             <Badge
               firstName={badge.firstName}
               lastName={badge.lastName}
-              email={badge.email}
-              twitter={badge.twitter}
               jobTitle={badge.jobTitle}
+              type={badge.type}
             />
           </div>
           <div className="col">

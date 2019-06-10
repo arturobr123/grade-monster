@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './styles/Home.css';
 import platziconfLogoImage from '../images/platziconf-logo.svg';
-import astronautsImage from '../images/astronauts.svg';
+import geekLogo from '../images/geek_icon.png';
 
 export default class Home extends Component {
   render() {
@@ -12,21 +12,17 @@ export default class Home extends Component {
         <div className="container">
           <div className="row">
             <div className="Home__col col-12 col-md-4">
-              <img
-                src={platziconfLogoImage}
-                alt="Platzi Conf Logo"
-                className="img-fluid mb-2"
-              />
 
-              <h1>Badge Management System</h1>
-              <Link className="btn btn-primary" to="/badges">
-                Start
-              </Link>
+            <h1>{"Geek API"}</h1>
+            <h3>Find the greatest json geek response</h3>
+            <Link className="btn btn-primary" to="/badges">
+              Start
+            </Link>
             </div>
 
             <div className="Home__col d-none d-md-block col-md-8">
               <img
-                src={astronautsImage}
+                src={geekLogo}
                 alt="Astronauts"
                 className="img-fluid p-4"
               />

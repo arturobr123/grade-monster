@@ -2,14 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './styles/Badges.css';
-import confLogo from '../images/badge-header.svg';
+import geekLogo from '../images/geek_icon.png';
 import BadgesList from '../components/BadgesList';
 import PageLoading from '../components/PageLoading';
 import PageError from '../components/PageError';
 import MiniLoader from '../components/MiniLoader';
 import api from '../api';
+import {fetchCharacters} from '../actions';
+
+import {db} from '../firebase';
 
 class Badges extends React.Component {
+  hola = "hola";
+
   state = {
     loading: true,
     error: null,
@@ -29,12 +34,19 @@ class Badges extends React.Component {
   fetchData = async () => {
     this.setState({ loading: true, error: null });
 
-    try {
-      const data = await api.badges.list();
-      this.setState({ loading: false, data: data });
-    } catch (error) {
-      this.setState({ loading: false, error: error });
-    }
+    db.on('value', snapshot => {
+      const values = snapshot.val();
+
+      const charactersList = Object.keys(values).map(key => ({
+          ...values[key],
+          id: key,
+        }));
+
+      this.setState({ loading: false, data: charactersList });
+    }, (error) => {
+        this.setState({ loading: false, error: error });
+    })
+
   };
 
   render() {
@@ -50,12 +62,9 @@ class Badges extends React.Component {
       <React.Fragment>
         <div className="Badges">
           <div className="Badges__hero">
-            <div className="Badges__container">
-              <img
-                className="Badges_conf-logo"
-                src={confLogo}
-                alt="Conf Logo"
-              />
+            <div className="Badges__container inline">
+              <img className="Badges_conf-logo inline" src={geekLogo} height="80px" alt="Conf Logo" />
+              <h3 className="inline text-light">{"Geek API"}</h3>
             </div>
           </div>
         </div>
@@ -63,7 +72,7 @@ class Badges extends React.Component {
         <div className="Badges__container">
           <div className="Badges__buttons">
             <Link to="/badges/new" className="btn btn-primary">
-              New Badge
+              New Character
             </Link>
           </div>
 

@@ -6,6 +6,13 @@ class BadgeForm extends React.Component {
   };
 
   render() {
+    const options = [
+      {id: 1, name: "All"},
+      {id: 2, name: "Game of Thrones"},
+      {id: 3, name: "Marvel"},
+      {id: 4, name: "Super Smash Bros"}
+     ];
+
     return (
       <div>
         <form onSubmit={this.props.onSubmit}>
@@ -32,17 +39,6 @@ class BadgeForm extends React.Component {
           </div>
 
           <div className="form-group">
-            <label>Email</label>
-            <input
-              onChange={this.props.onChange}
-              className="form-control"
-              type="email"
-              name="email"
-              value={this.props.formValues.email}
-            />
-          </div>
-
-          <div className="form-group">
             <label>Job Title</label>
             <input
               onChange={this.props.onChange}
@@ -54,14 +50,18 @@ class BadgeForm extends React.Component {
           </div>
 
           <div className="form-group">
-            <label>Twitter</label>
-            <input
+            <label>{"Where is this Character from ?"}</label>
+
+            <select name="type"
               onChange={this.props.onChange}
-              className="form-control"
-              type="text"
-              name="twitter"
-              value={this.props.formValues.twitter}
-            />
+              value={this.props.formValues.type}
+              className="form-control">
+              {options.map(option => {
+                return (
+                  <option key={option.id}>{option.name}</option>
+                );
+              })}
+            </select>
           </div>
 
           <button onClick={this.handleClick} className="btn btn-primary">

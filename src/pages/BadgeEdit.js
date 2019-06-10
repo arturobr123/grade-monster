@@ -6,6 +6,7 @@ import Badge from '../components/Badge';
 import BadgeForm from '../components/BadgeForm';
 import PageLoading from '../components/PageLoading';
 import api from '../api';
+import {db} from '../firebase';
 
 class BadgeEdit extends React.Component {
   state = {
@@ -14,9 +15,8 @@ class BadgeEdit extends React.Component {
     form: {
       firstName: '',
       lastName: '',
-      email: '',
       jobTitle: '',
-      twitter: '',
+      type:''
     },
   };
 
@@ -27,13 +27,18 @@ class BadgeEdit extends React.Component {
   fetchData = async e => {
     this.setState({ loading: true, error: null });
 
-    try {
-      const data = await api.badges.read(this.props.match.params.badgeId);
+    db.child(this.props.match.params.badgeId).once('value', snapshot => {
+      const values = snapshot.val();
+
+      const data = {
+        ...values,
+        id: this.props.match.params.badgeId,
+      }
 
       this.setState({ loading: false, form: data });
-    } catch (error) {
-      this.setState({ loading: false, error: error });
-    }
+    }, (error) => {
+        this.setState({ loading: false, error: error });
+    })
   };
 
   handleChange = e => {
@@ -50,7 +55,7 @@ class BadgeEdit extends React.Component {
     this.setState({ loading: true, error: null });
 
     try {
-      await api.badges.update(this.props.match.params.badgeId, this.state.form);
+      db.child(this.props.match.params.badgeId).set(this.state.form);
       this.setState({ loading: false });
 
       this.props.history.push('/badges');
@@ -67,11 +72,6 @@ class BadgeEdit extends React.Component {
     return (
       <React.Fragment>
         <div className="BadgeEdit__hero">
-          <img
-            className="BadgeEdit__hero-image img-fluid"
-            src={header}
-            alt="Logo"
-          />
         </div>
 
         <div className="container">
@@ -80,15 +80,14 @@ class BadgeEdit extends React.Component {
               <Badge
                 firstName={this.state.form.firstName || 'FIRST_NAME'}
                 lastName={this.state.form.lastName || 'LAST_NAME'}
-                twitter={this.state.form.twitter || 'twitter'}
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
-                email={this.state.form.email || 'EMAIL'}
+                type={this.state.form.type || 'TYPE'}
                 avatarUrl="https://www.gravatar.com/avatar/21594ed15d68ace3965642162f8d2e84?d=identicon"
               />
             </div>
 
             <div className="col-6">
-              <h1>Edit Attendant</h1>
+              <h1>Edit Character</h1>
               <BadgeForm
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
