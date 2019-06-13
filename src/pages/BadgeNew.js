@@ -7,7 +7,7 @@ import BadgeForm from '../components/BadgeForm';
 import PageLoading from '../components/PageLoading';
 import api from '../api';
 import {db} from '../firebase';
-import firebase from "firebase";
+import {handleChangeImage, handleChange, submitImage} from "../actions/BadgeActions";
 
 class BadgeNew extends React.Component {
   state = {
@@ -20,24 +20,16 @@ class BadgeNew extends React.Component {
       type:'',
       avatarURL:''
     },
-    photo:'',
+    previewPhoto:'',
     toUploadPhoto: ''
   };
 
-  handleChange = e => {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
-      },
-    });
+  constructor(props){
+    super(props);
 
-    console.log(this.state);
-  };
-
-  handleChangeImage = e => {
-    this.setState({photo: URL.createObjectURL(e.target.files[0]) });
-    this.setState({toUploadPhoto: e.target.files[0]});
+    this.submitImage = submitImage.bind(this);
+    this.handleChangeImage = handleChangeImage.bind(this);
+    this.handleChange = handleChange.bind(this);
   }
 
   handleSubmit = async e => {
@@ -45,24 +37,13 @@ class BadgeNew extends React.Component {
     this.setState({ loading: true, error: null });
 
     try {
-      //first upload image
-      const storageRef = firebase.storage().ref(`images/${this.state.toUploadPhoto.name}`)
-      const task = storageRef.put(this.state.toUploadPhoto);
+      const imageUrl = await this.submitImage();
+      this.setState({form: { ...this.state.form, avatarURL: imageUrl}});
 
-      task.on('state_changed', (snapshot) => {
-        // Se lanza durante el progreso de subida
-      }, (error) => {
-        // Si ha ocurrido un error aquí lo tratamos
-      }, () => {
-        task.snapshot.ref.getDownloadURL().then((url) => {
-          this.setState({form: { ...this.state.form, avatarURL: url}});
+      db.push(this.state.form);
 
-          db.push(this.state.form);
-
-          this.setState({ loading: false });
-          this.props.history.push('/badges');
-        })
-      })
+      this.setState({ loading: false });
+      this.props.history.push('/badges');
 
     } catch (error) {
       this.setState({ loading: false, error: error });
@@ -87,7 +68,7 @@ class BadgeNew extends React.Component {
                 lastName={this.state.form.lastName || 'LAST_NAME'}
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
                 type={this.state.form.type || 'TYPE'}
-                avatarURL={this.state.photo || "https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon"}
+                avatarURL={this.state.previewPhoto || "https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon"}
               />
             </div>
 

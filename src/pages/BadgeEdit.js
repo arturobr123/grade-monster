@@ -7,6 +7,7 @@ import BadgeForm from '../components/BadgeForm';
 import PageLoading from '../components/PageLoading';
 import api from '../api';
 import {db} from '../firebase';
+import {handleChange, handleChangeImage, submitImage} from "../actions/BadgeActions";
 
 class BadgeEdit extends React.Component {
   state = {
@@ -19,7 +20,17 @@ class BadgeEdit extends React.Component {
       type:'',
       avatarURL: ''
     },
+    previewPhoto:'',
+    toUploadPhoto: ''
   };
+
+  constructor(props){
+    super(props);
+
+    this.submitImage = submitImage.bind(this);
+    this.handleChangeImage = handleChangeImage.bind(this);
+    this.handleChange = handleChange.bind(this);
+  }
 
   componentDidMount() {
     this.fetchData();
@@ -36,19 +47,10 @@ class BadgeEdit extends React.Component {
         id: this.props.match.params.badgeId,
       }
 
-      this.setState({ loading: false, form: data });
+      this.setState({ loading: false, form: data, previewPhoto: data.avatarURL });
     }, (error) => {
         this.setState({ loading: false, error: error });
     })
-  };
-
-  handleChange = e => {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
-      },
-    });
   };
 
   handleSubmit = async e => {
@@ -56,6 +58,11 @@ class BadgeEdit extends React.Component {
     this.setState({ loading: true, error: null });
 
     try {
+      if(this.state.toUploadPhoto){
+        const imageUrl = await this.submitImage();
+        this.setState({form: { ...this.state.form, avatarURL: imageUrl}});
+      }
+
       db.child(this.props.match.params.badgeId).set(this.state.form);
       this.setState({ loading: false });
 
@@ -83,7 +90,7 @@ class BadgeEdit extends React.Component {
                 lastName={this.state.form.lastName || 'LAST_NAME'}
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
                 type={this.state.form.type || 'TYPE'}
-                avatarURL={this.state.form.avatarURL}
+                avatarURL={this.state.previewPhoto || "https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon"}
               />
             </div>
 
@@ -93,6 +100,7 @@ class BadgeEdit extends React.Component {
                 onChange={this.handleChange}
                 onSubmit={this.handleSubmit}
                 formValues={this.state.form}
+                onChangeImage={this.handleChangeImage}
                 error={this.state.error}
               />
             </div>
