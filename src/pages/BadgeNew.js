@@ -7,6 +7,7 @@ import BadgeForm from '../components/BadgeForm';
 import PageLoading from '../components/PageLoading';
 import api from '../api';
 import {db} from '../firebase';
+import firebase from "firebase";
 
 class BadgeNew extends React.Component {
   state = {
@@ -16,8 +17,11 @@ class BadgeNew extends React.Component {
       firstName: '',
       lastName: '',
       jobTitle: '',
-      type:''
+      type:'',
+      avatarURL:''
     },
+    photo:'',
+    toUploadPhoto: ''
   };
 
   handleChange = e => {
@@ -31,16 +35,35 @@ class BadgeNew extends React.Component {
     console.log(this.state);
   };
 
+  handleChangeImage = e => {
+    this.setState({photo: URL.createObjectURL(e.target.files[0]) });
+    this.setState({toUploadPhoto: e.target.files[0]});
+  }
+
   handleSubmit = async e => {
     e.preventDefault();
     this.setState({ loading: true, error: null });
 
     try {
-      db.push(this.state.form);
+      //first upload image
+      const storageRef = firebase.storage().ref(`images/${this.state.toUploadPhoto.name}`)
+      const task = storageRef.put(this.state.toUploadPhoto);
 
-      this.setState({ loading: false });
+      task.on('state_changed', (snapshot) => {
+        // Se lanza durante el progreso de subida
+      }, (error) => {
+        // Si ha ocurrido un error aquí lo tratamos
+      }, () => {
+        task.snapshot.ref.getDownloadURL().then((url) => {
+          this.setState({form: { ...this.state.form, avatarURL: url}});
 
-      this.props.history.push('/badges');
+          db.push(this.state.form);
+
+          this.setState({ loading: false });
+          this.props.history.push('/badges');
+        })
+      })
+
     } catch (error) {
       this.setState({ loading: false, error: error });
     }
@@ -64,7 +87,7 @@ class BadgeNew extends React.Component {
                 lastName={this.state.form.lastName || 'LAST_NAME'}
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
                 type={this.state.form.type || 'TYPE'}
-                avatarUrl="https://www.gravatar.com/avatar/21594ed15d68ace3965642162f8d2e84?d=identicon"
+                avatarURL={this.state.photo || "https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon"}
               />
             </div>
 
@@ -72,6 +95,7 @@ class BadgeNew extends React.Component {
               <h1>New Character</h1>
               <BadgeForm
                 onChange={this.handleChange}
+                onChangeImage={this.handleChangeImage}
                 onSubmit={this.handleSubmit}
                 formValues={this.state.form}
                 error={this.state.error}

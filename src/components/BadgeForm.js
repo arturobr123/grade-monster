@@ -1,9 +1,7 @@
 import React from 'react';
+import ImageUploader from './ImageUploader';
 
 class BadgeForm extends React.Component {
-  handleClick = e => {
-    console.log('Button was clicked');
-  };
 
   render() {
     const options = [
@@ -18,7 +16,7 @@ class BadgeForm extends React.Component {
         <form onSubmit={this.props.onSubmit}>
           <div className="form-group">
             <label>First Name</label>
-            <input
+            <input required
               onChange={this.props.onChange}
               className="form-control"
               type="text"
@@ -64,7 +62,13 @@ class BadgeForm extends React.Component {
             </select>
           </div>
 
-          <button onClick={this.handleClick} className="btn btn-primary">
+          <input required
+            type="file"
+            name="avatarURL"
+            onChange={this.props.onChangeImage}
+          />
+
+          <button className="btn btn-primary">
             Save
           </button>
 

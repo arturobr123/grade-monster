@@ -32,6 +32,7 @@ function BadgeDetails(props) {
               lastName={badge.lastName}
               jobTitle={badge.jobTitle}
               type={badge.type}
+              avatarURL={badge.avatarURL}
             />
           </div>
           <div className="col">

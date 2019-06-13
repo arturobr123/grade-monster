@@ -10,8 +10,8 @@ function Searcher(props) {
    ];
 
   return(
-    <div>
-      <div className="form-group">
+    <div className="row">
+      <div className="form-group col-12">
         <label>Filter by name</label>
         <input
           type="text"
@@ -23,7 +23,7 @@ function Searcher(props) {
         />
       </div>
 
-      <div className="form-group">
+      <div className="form-group col-12">
         <label>{"Where are the Characters from ?"}</label>
 
         <select name="twitter"

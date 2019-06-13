@@ -16,7 +16,8 @@ class BadgeEdit extends React.Component {
       firstName: '',
       lastName: '',
       jobTitle: '',
-      type:''
+      type:'',
+      avatarURL: ''
     },
   };
 
@@ -82,7 +83,7 @@ class BadgeEdit extends React.Component {
                 lastName={this.state.form.lastName || 'LAST_NAME'}
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
                 type={this.state.form.type || 'TYPE'}
-                avatarUrl="https://www.gravatar.com/avatar/21594ed15d68ace3965642162f8d2e84?d=identicon"
+                avatarURL={this.state.form.avatarURL}
               />
             </div>
 
