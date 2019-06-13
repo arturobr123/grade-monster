@@ -1,5 +1,4 @@
 import React from 'react';
-import ImageUploader from './ImageUploader';
 
 class BadgeForm extends React.Component {
 
