@@ -18,7 +18,9 @@ class BadgeEdit extends React.Component {
       lastName: '',
       jobTitle: '',
       type:'',
-      avatarURL: ''
+      avatarURL: '',
+      status:'',
+      lastLocation:''
     },
     previewPhoto:'',
     toUploadPhoto: ''
@@ -91,6 +93,8 @@ class BadgeEdit extends React.Component {
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
                 type={this.state.form.type || 'TYPE'}
                 avatarURL={this.state.previewPhoto || "https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon"}
+                status={this.state.form.status || 'STATUS'}
+                lastLocation={this.state.form.lastLocation || 'LAST_LOCATION'}
               />
             </div>
 

@@ -19,8 +19,9 @@ class Badge extends React.Component {
         <div className="Badge__section-info">
           <h3>{this.props.jobTitle}</h3>
           <div>From: {this.props.type}</div>
+          <div>Status: <strong>{this.props.status}</strong> </div>
+          <div>Last location: {this.props.lastLocation} </div>
         </div>
-
       </div>
     );
   }
