@@ -30,12 +30,11 @@ class NewScore extends React.Component {
     this.setState({ loading: true, error: null });
 
     try {
-      this.setState({form: { ...this.state.form}});
-
-      db.push(this.state.form);
+      db.child(this.props.match.params.badgeId).child("scores").push(this.state.form)
 
       this.setState({ loading: false });
-      this.props.history.push('/badges');
+      this.props.history.push(`/badges/${this.props.match.params.badgeId}`);
+
 
     } catch (error) {
       this.setState({ loading: false, error: error });
@@ -104,4 +103,4 @@ class NewScore extends React.Component {
   }
 }
 
-export default BadgeNew;
+export default NewScore;

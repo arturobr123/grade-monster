@@ -10,13 +10,26 @@ function BadgeDetails(props) {
 
   const thereAreComments = badge.scores ? true : false
 
+  const scores = Object.keys(badge.scores).map(key => ({
+    ...badge.scores[key],
+    id: key,
+  }));
+
+  const average = (scores.map((badge) => badge.score).reduce((a, b) => parseInt(a)+ parseInt(b)) / scores.length).toFixed(2)
+
   const comments = () => {
+    console.log(badge.scores)
+
     return(
-      badge.scores.map(badge => {
+      scores.map(badge => {
         return (
-          <li>
-            {badge.comment}
-          </li>
+          <div className="card mt-1" key={badge.id}>
+            <div className="card-body">
+              <p>Comment: {badge.comment}</p>
+              <p>Score: {badge.score}</p>
+            </div>
+          </div>
+
         );
       })
     )
@@ -50,10 +63,22 @@ function BadgeDetails(props) {
               status={badge.status}
               lastLocation={badge.lastLocation}
             />
+
+          <h4>Score average: {average}</h4>
+
           </div>
           <div className="col">
             <h2>Actions</h2>
             <div>
+              <div>
+                <Link
+                  className="btn btn-secondary mb-4"
+                  to={`/badges/${badge.id}/scores/new`}
+                >
+                  New Score
+                </Link>
+              </div>
+
               <div>
                 <Link
                   className="btn btn-primary mb-4"
