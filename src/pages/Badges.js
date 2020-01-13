@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 
 import './styles/Badges.css';
@@ -12,27 +12,14 @@ import {fetchCharacters} from '../actions';
 
 import {db} from '../firebase';
 
-class Badges extends React.Component {
-  hola = "hola";
+const Badges = () => {
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [data, setData] = useState([])
 
-  state = {
-    loading: true,
-    error: null,
-    data: undefined,
-  };
-
-  componentDidMount() {
-    this.fetchData();
-
-    this.intervalId = setInterval(this.fetchData, 5000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
-
-  fetchData = async () => {
-    this.setState({ loading: true, error: null });
+  const fetchData = async () => {
+    setLoading(true)
+    setError(null)
 
     db.on('value', snapshot => {
       const values = snapshot.val();
@@ -42,47 +29,52 @@ class Badges extends React.Component {
           id: key,
         }));
 
-      this.setState({ loading: false, data: charactersList });
-    }, (error) => {
-        this.setState({ loading: false, error: error });
-    })
+      setLoading(false)
+      setData(charactersList)
 
+    }, (error) => {
+      setLoading(false)
+      setError(null)
+    })
   };
 
-  render() {
-    if (this.state.loading === true && !this.state.data) {
-      return <PageLoading />;
-    }
+  useEffect(() => {
+    fetchData();
+  }, [])
 
-    if (this.state.error) {
-      return <PageError error={this.state.error} />;
-    }
-
-    return (
-      <React.Fragment>
-        <div className="Badges">
-          <div className="Badges__hero">
-            <div className="Badges__container inline">
-              <img className="Badges_conf-logo inline" src={geekLogo} height="80px" alt="Conf Logo" />
-              <h3 className="inline text-light">{"Geek API"}</h3>
-            </div>
-          </div>
-        </div>
-
-        <div className="Badges__container">
-          <div className="Badges__buttons">
-            <Link to="/badges/new" className="btn btn-primary">
-              New Character
-            </Link>
-          </div>
-
-          <BadgesList badges={this.state.data} />
-
-          {this.state.loading && <MiniLoader />}
-        </div>
-      </React.Fragment>
-    );
+  if (loading === true && !data) {
+    return <PageLoading />;
   }
+
+  if (error) {
+    return <PageError error={error} />;
+  }
+
+  return (
+    <React.Fragment>
+      <div className="Badges">
+        <div className="Badges__hero">
+          <div className="Badges__container inline">
+            <img className="Badges_conf-logo inline" src={geekLogo} height="80px" alt="Conf Logo" />
+            <h3 className="inline text-light">{"Geek API"}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div className="Badges__container">
+        <div className="Badges__buttons">
+          <Link to="/badges/new" className="btn btn-primary">
+            New Character
+          </Link>
+        </div>
+
+        <BadgesList badges={data} />
+
+        {loading && <MiniLoader />}
+      </div>
+    </React.Fragment>
+  );
+
 }
 
 export default Badges;
