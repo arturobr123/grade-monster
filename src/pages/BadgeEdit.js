@@ -86,7 +86,7 @@ class BadgeEdit extends React.Component {
 
         <div className="container">
           <div className="row">
-            <div className="col-6">
+            <div className="col-md-6 col-sm-12">
               <Badge
                 firstName={this.state.form.firstName || 'FIRST_NAME'}
                 lastName={this.state.form.lastName || 'LAST_NAME'}
@@ -98,7 +98,7 @@ class BadgeEdit extends React.Component {
               />
             </div>
 
-            <div className="col-6">
+            <div className="col-md-6 col-sm-12">
               <h1>Edit Character</h1>
               <BadgeForm
                 onChange={this.handleChange}

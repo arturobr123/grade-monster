@@ -8,6 +8,20 @@ import DeleteBadgeModal from '../components/DeleteBadgeModal';
 function BadgeDetails(props) {
   const badge = props.badge;
 
+  const thereAreComments = badge.scores ? true : false
+
+  const comments = () => {
+    return(
+      badge.scores.map(badge => {
+        return (
+          <li>
+            {badge.comment}
+          </li>
+        );
+      })
+    )
+  }
+
   return (
     <div>
       <div className="BadgeDetails__hero">
@@ -61,7 +75,14 @@ function BadgeDetails(props) {
               </div>
             </div>
           </div>
+
         </div>
+
+        <div>
+          <h3>Comments</h3>
+          {thereAreComments && comments()}
+        </div>
+
       </div>
     </div>
   );

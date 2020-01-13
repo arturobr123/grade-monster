@@ -30,7 +30,7 @@ function BadgesList(props) {
       <ul className="list-unstyled row">
         {filteredBadges.map(badge => {
           return (
-            <li key={badge.id} className="col-6 col-md-3">
+            <li key={badge.id} className="col-md-3 col-sm-12">
               <Link
                 className="text-reset text-decoration-none"
                 to={`/badges/${badge.id}`}

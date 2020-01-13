@@ -99,6 +99,7 @@ class BadgeForm extends React.Component {
           <input
             type="file"
             name="avatarURL"
+            accept="image/*"
             onChange={this.props.onChangeImage}
           />
 
