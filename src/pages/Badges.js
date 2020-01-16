@@ -9,7 +9,9 @@ import PageError from '../components/PageError';
 import MiniLoader from '../components/MiniLoader';
 import {fetchCharacters} from '../actions';
 
-import {db} from '../firebase';
+import { auth } from '../firebaseInitializeApp.js';
+
+import {db} from '../firebaseDB';
 
 const Badges = () => {
   const [loading, setLoading] = useState(true)
@@ -37,8 +39,18 @@ const Badges = () => {
     })
   };
 
+  const checkUser = () =>{
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log(":)");
+      }
+    });
+  }
+
   useEffect(() => {
     fetchData();
+    checkUser();
+
   }, [])
 
   if (loading === true && !data) {

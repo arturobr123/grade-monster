@@ -4,7 +4,7 @@ import BadgeDetails from './BadgeDetails';
 import PageLoading from '../components/PageLoading';
 import PageError from '../components/PageError';
 import api from '../api';
-import {db} from '../firebase';
+import {db} from '../firebaseDB';
 
 class BadgeDetailsContainer extends React.Component {
   state = {

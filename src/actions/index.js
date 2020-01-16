@@ -1,4 +1,4 @@
-import {db} from '../firebase';
+import {db} from '../firebaseDB';
 
 const FETCH_TODOS = 'FETCH_TODOS';
 

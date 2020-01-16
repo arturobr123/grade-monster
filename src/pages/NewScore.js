@@ -2,7 +2,7 @@ import React from 'react';
 
 import './styles/BadgeNew.css';
 import PageLoading from '../components/PageLoading';
-import {db} from '../firebase';
+import {db} from '../firebaseDB';
 import {handleChange} from "../actions/BadgeActions";
 
 class NewScore extends React.Component {

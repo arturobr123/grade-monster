@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
-import {db} from '../firebase';
+import {db} from '../firebaseDB';
 
 class ProfilePage extends Component {
 

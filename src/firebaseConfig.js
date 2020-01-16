@@ -1,5 +1,3 @@
-import * as firebase from 'firebase';
-
 const config = {
   apiKey: "AIzaSyAGGiQq4sLYGakyxn3LG41LDa9VeQhOf4U",
   authDomain: "geekapi-48c58.firebaseapp.com",
@@ -10,6 +8,4 @@ const config = {
   appId: "1:54512686289:web:130cba1e5c23950c"
 };
 
-firebase.initializeApp(config);
-const databaseRef = firebase.database().ref();
-export const db = databaseRef.child("characters");
+export default config;
