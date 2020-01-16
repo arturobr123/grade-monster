@@ -1,13 +1,9 @@
 import React from 'react';
 
 import './styles/BadgeNew.css';
-import header from '../images/platziconf-logo.svg';
-import Badge from '../components/Badge';
-import BadgeForm from '../components/BadgeForm';
 import PageLoading from '../components/PageLoading';
-import api from '../api';
 import {db} from '../firebase';
-import {handleChangeImage, handleChange, submitImage} from "../actions/BadgeActions";
+import {handleChange} from "../actions/BadgeActions";
 
 class NewScore extends React.Component {
   state = {

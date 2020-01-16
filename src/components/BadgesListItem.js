@@ -1,5 +1,4 @@
 import React from 'react';
-import confLogo from '../images/badge-header.svg';
 import './styles/BadgesList.css';
 
 class BadgesListItem extends React.Component {

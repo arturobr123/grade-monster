@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Gravatar from './Gravatar';
-import userSearchBadges from './userSearchBadges';
+import UserSearchBadges from './UserSearchBadges';
 import BadgesListItem from './BadgesListItem';
 import Searcher from './Searcher';
 
 function BadgesList(props) {
   const badges = props.badges;
-  const { query, setQuery,type, setType,filteredBadges } = userSearchBadges(badges);
+  const { query, setQuery,type, setType,filteredBadges } = UserSearchBadges(badges);
 
   if (filteredBadges.length === 0) {
     return (

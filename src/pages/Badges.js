@@ -7,7 +7,6 @@ import BadgesList from '../components/BadgesList';
 import PageLoading from '../components/PageLoading';
 import PageError from '../components/PageError';
 import MiniLoader from '../components/MiniLoader';
-import api from '../api';
 import {fetchCharacters} from '../actions';
 
 import {db} from '../firebase';
@@ -51,7 +50,7 @@ const Badges = () => {
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className="Badges">
         <div className="Badges__hero">
           <div className="Badges__container inline">
@@ -72,7 +71,7 @@ const Badges = () => {
 
         {loading && <MiniLoader />}
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 
 }

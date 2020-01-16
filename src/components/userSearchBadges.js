@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-function userSearchBadges(badges) {
-  const [query, setQuery] = React.useState('');
-  const [type, setType] = React.useState('');
-  const [filteredBadges, setFilteredBadges] = React.useState(badges);
-
+function UserSearchBadges(badges) {
+  const [query, setQuery] = useState('');
+  const [type, setType] = useState('');
+  const [filteredBadges, setFilteredBadges] = useState(badges);
 
   //useMemo es para memorizar los resultados del query
   React.useMemo(() => {
@@ -30,4 +29,4 @@ function userSearchBadges(badges) {
   return { query, setQuery,type, setType,filteredBadges };
 }
 
-export default userSearchBadges;
+export default UserSearchBadges;
