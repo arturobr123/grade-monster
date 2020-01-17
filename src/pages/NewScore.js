@@ -4,6 +4,7 @@ import './styles/BadgeNew.css';
 import PageLoading from '../components/PageLoading';
 import {db} from '../firebaseDB';
 import {handleChange} from "../actions/BadgeActions";
+import {setUserToForm} from "../actions/userActions";
 
 class NewScore extends React.Component {
   state = {
@@ -11,7 +12,8 @@ class NewScore extends React.Component {
     error: null,
     form: {
       score: 5,
-      comment: ''
+      comment: '',
+      user_uid : "invited"
     },
   };
 
@@ -19,6 +21,11 @@ class NewScore extends React.Component {
     super(props);
 
     this.handleChange = handleChange.bind(this);
+    this.setUserToForm = setUserToForm.bind(this)
+  }
+
+  componentDidMount(){
+    this.setUserToForm();
   }
 
   handleSubmit = async e => {

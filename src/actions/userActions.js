@@ -12,6 +12,19 @@ export function getUser(){
   });
 }
 
+export function setUserToForm(){
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      this.setState({
+        form: {
+          ...this.state.form,
+          user_uid: user.uid,
+        },
+      });
+    }
+  });
+}
+
 export function logout(){
   auth.signOut()
     .then(() => {

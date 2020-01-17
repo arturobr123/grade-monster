@@ -10,8 +10,10 @@ function BadgeDetails(props) {
 
   const thereAreComments = badge.scores ? true : false
 
-  const scores = Object.keys(badge.scores).map(key => ({
-    ...badge.scores[key],
+  let scores = badge.scores ? badge.scores : [{score: 5}]
+
+  scores = Object.keys(scores).map(key => ({
+    ...scores[key],
     id: key,
   }));
 
@@ -27,6 +29,7 @@ function BadgeDetails(props) {
             <div className="card-body">
               <p>Comment: {badge.comment}</p>
               <p>Score: {badge.score}</p>
+              <p>User uid:  {badge.user_uid}</p>
             </div>
           </div>
 

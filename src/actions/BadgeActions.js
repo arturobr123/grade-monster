@@ -6,6 +6,8 @@ export function handleChangeImage(e) {
 }
 
 export function handleChange (e){
+  console.log(this.state.form)
+
   this.setState({
     form: {
       ...this.state.form,
