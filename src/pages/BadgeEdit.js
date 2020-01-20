@@ -6,8 +6,8 @@ import Badge from '../components/Badge';
 import BadgeForm from '../components/BadgeForm';
 import PageLoading from '../components/PageLoading';
 import api from '../api';
-import {db} from '../firebaseDB';
-import {handleChange, handleChangeImage, submitImage} from "../actions/BadgeActions";
+import { db } from '../firebaseDB';
+import { handleChange, handleChangeImage, submitImage } from '../actions/BadgeActions';
 
 class BadgeEdit extends React.Component {
   state = {
@@ -17,16 +17,16 @@ class BadgeEdit extends React.Component {
       firstName: '',
       lastName: '',
       jobTitle: '',
-      type:'',
+      type: '',
       avatarURL: '',
-      status:'',
-      lastLocation:''
+      status: '',
+      lastLocation: '',
     },
-    previewPhoto:'',
-    toUploadPhoto: ''
+    previewPhoto: '',
+    toUploadPhoto: '',
   };
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.submitImage = submitImage.bind(this);
@@ -38,31 +38,31 @@ class BadgeEdit extends React.Component {
     this.fetchData();
   }
 
-  fetchData = async e => {
+  fetchData = async (e) => {
     this.setState({ loading: true, error: null });
 
-    db.child(this.props.match.params.badgeId).once('value', snapshot => {
+    db.child(this.props.match.params.badgeId).once('value', (snapshot) => {
       const values = snapshot.val();
 
       const data = {
         ...values,
         id: this.props.match.params.badgeId,
-      }
+      };
 
       this.setState({ loading: false, form: data, previewPhoto: data.avatarURL });
     }, (error) => {
-        this.setState({ loading: false, error: error });
-    })
+      this.setState({ loading: false, error });
+    });
   };
 
-  handleSubmit = async e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     this.setState({ loading: true, error: null });
 
     try {
-      if(this.state.toUploadPhoto){
+      if (this.state.toUploadPhoto) {
         const imageUrl = await this.submitImage();
-        this.setState({form: { ...this.state.form, avatarURL: imageUrl}});
+        this.setState({ form: { ...this.state.form, avatarURL: imageUrl } });
       }
 
       db.child(this.props.match.params.badgeId).set(this.state.form);
@@ -70,7 +70,7 @@ class BadgeEdit extends React.Component {
 
       this.props.history.push('/badges');
     } catch (error) {
-      this.setState({ loading: false, error: error });
+      this.setState({ loading: false, error });
     }
   };
 
@@ -81,24 +81,23 @@ class BadgeEdit extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="BadgeEdit__hero">
-        </div>
+        <div className='BadgeEdit__hero' />
 
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6 col-sm-12">
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-6 col-sm-12'>
               <Badge
                 firstName={this.state.form.firstName || 'FIRST_NAME'}
                 lastName={this.state.form.lastName || 'LAST_NAME'}
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
                 type={this.state.form.type || 'TYPE'}
-                avatarURL={this.state.previewPhoto || "https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon"}
+                avatarURL={this.state.previewPhoto || 'https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon'}
                 status={this.state.form.status || 'STATUS'}
                 lastLocation={this.state.form.lastLocation || 'LAST_LOCATION'}
               />
             </div>
 
-            <div className="col-md-6 col-sm-12">
+            <div className='col-md-6 col-sm-12'>
               <h1>Edit Character</h1>
               <BadgeForm
                 onChange={this.handleChange}

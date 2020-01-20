@@ -8,25 +8,25 @@ import DeleteBadgeModal from '../components/DeleteBadgeModal';
 function BadgeDetails(props) {
   const badge = props.badge;
 
-  const thereAreComments = badge.scores ? true : false
+  const thereAreComments = !!badge.scores;
 
-  let scores = badge.scores ? badge.scores : [{score: 5}]
+  let scores = badge.scores ? badge.scores : [{ score: 5 }];
 
   scores = Object.keys(scores).map(key => ({
     ...scores[key],
     id: key,
   }));
 
-  const average = (scores.map((badge) => badge.score).reduce((a, b) => parseInt(a)+ parseInt(b)) / scores.length).toFixed(2)
+  const average = (scores.map(badge => badge.score).reduce((a, b) => parseInt(a) + parseInt(b)) / scores.length).toFixed(2);
 
   const comments = () => {
-    console.log(badge.scores)
+    console.log(badge.scores);
 
-    return(
-      scores.map(badge => {
+    return (
+      scores.map((badge) => {
         return (
-          <div className="card mt-1" key={badge.id}>
-            <div className="card-body">
+          <div className='card mt-1' key={badge.id}>
+            <div className='card-body'>
               <p>Comment: {badge.comment}</p>
               <p>Score: {badge.score}</p>
               <p>User uid:  {badge.user_uid}</p>
@@ -35,17 +35,16 @@ function BadgeDetails(props) {
 
         );
       })
-    )
-  }
+    );
+  };
 
   return (
     <div>
-      <div className="BadgeDetails__hero">
-        <div className="container">
-          <div className="row">
-            <div className="col-6">
-            </div>
-            <div className="col-6 BadgeDetails__hero-attendant-name">
+      <div className='BadgeDetails__hero'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-6' />
+            <div className='col-6 BadgeDetails__hero-attendant-name'>
               <h1>
                 {badge.firstName} {badge.lastName}
               </h1>
@@ -54,9 +53,9 @@ function BadgeDetails(props) {
         </div>
       </div>
 
-      <div className="container">
-        <div className="row">
-          <div className="col">
+      <div className='container'>
+        <div className='row'>
+          <div className='col'>
             <Badge
               firstName={badge.firstName}
               lastName={badge.lastName}
@@ -67,15 +66,15 @@ function BadgeDetails(props) {
               lastLocation={badge.lastLocation}
             />
 
-          <h4>Score average: {average}</h4>
+            <h4>Score average: {average}</h4>
 
           </div>
-          <div className="col">
+          <div className='col'>
             <h2>Actions</h2>
             <div>
               <div>
                 <Link
-                  className="btn btn-secondary mb-4"
+                  className='btn btn-secondary mb-4'
                   to={`/badges/${badge.id}/scores/new`}
                 >
                   New Score
@@ -84,7 +83,7 @@ function BadgeDetails(props) {
 
               <div>
                 <Link
-                  className="btn btn-primary mb-4"
+                  className='btn btn-primary mb-4'
                   to={`/badges/${badge.id}/edit`}
                 >
                   Edit
@@ -92,7 +91,7 @@ function BadgeDetails(props) {
               </div>
 
               <div>
-                <button onClick={props.onOpenModal} className="btn btn-danger">
+                <button onClick={props.onOpenModal} className='btn btn-danger'>
                   Delete
                 </button>
                 <DeleteBadgeModal

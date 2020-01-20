@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 import './styles/Badges.css';
 import geekLogo from '../images/geek_icon.png';
@@ -7,7 +7,7 @@ import BadgesList from '../components/BadgesList';
 import PageLoading from '../components/PageLoading';
 import PageError from '../components/PageError';
 import MiniLoader from '../components/MiniLoader';
-import {fetchCharacters} from '../actions';
+import {fetchCharacters } from '../actions';
 
 import { auth } from '../firebaseInitializeApp.js';
 
