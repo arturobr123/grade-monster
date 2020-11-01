@@ -1,12 +1,12 @@
-import firebase from "firebase";
+import firebase from 'firebase';
 
 export function handleChangeImage(e) {
-  this.setState({previewPhoto: URL.createObjectURL(e.target.files[0]) });
-  this.setState({toUploadPhoto: e.target.files[0]});
+  this.setState({ previewPhoto: URL.createObjectURL(e.target.files[0]) });
+  this.setState({ toUploadPhoto: e.target.files[0] });
 }
 
-export function handleChange (e){
-  console.log(this.state.form)
+export function handleChange(e) {
+  console.log(this.state.form);
 
   this.setState({
     form: {
@@ -18,9 +18,9 @@ export function handleChange (e){
   console.log(this.state);
 };
 
-export function submitImage(){
+export function submitImage() {
   return new Promise((resolve, reject) => {
-    const storageRef = firebase.storage().ref(`images/${this.state.toUploadPhoto.name}`)
+    const storageRef = firebase.storage().ref(`images/${this.state.toUploadPhoto.name}`);
     const task = storageRef.put(this.state.toUploadPhoto);
 
     task.on('state_changed', (snapshot) => {
@@ -30,8 +30,8 @@ export function submitImage(){
     }, () => {
       task.snapshot.ref.getDownloadURL().then((url) => {
         resolve(url);
-      })
-    })
+      });
+    });
 
-  })
+  });
 }

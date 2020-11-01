@@ -6,7 +6,7 @@ import Badge from '../components/Badge';
 import DeleteBadgeModal from '../components/DeleteBadgeModal';
 
 function BadgeDetails(props) {
-  const badge = props.badge;
+  const { badge } = props;
 
   const thereAreComments = !!badge.scores;
 
@@ -27,9 +27,21 @@ function BadgeDetails(props) {
         return (
           <div className='card mt-1' key={badge.id}>
             <div className='card-body'>
-              <p>Comment: {badge.comment}</p>
-              <p>Score: {badge.score}</p>
-              <p>User uid:  {badge.user_uid}</p>
+              <p>
+                Comment:
+                {' '}
+                {badge.comment}
+              </p>
+              <p>
+                Score:
+                {' '}
+                {badge.score}
+              </p>
+              <p>
+                User uid:
+                {' '}
+                {badge.user_uid}
+              </p>
             </div>
           </div>
 
@@ -46,7 +58,9 @@ function BadgeDetails(props) {
             <div className='col-6' />
             <div className='col-6 BadgeDetails__hero-attendant-name'>
               <h1>
-                {badge.firstName} {badge.lastName}
+                {badge.firstName}
+                {' '}
+                {badge.lastName}
               </h1>
             </div>
           </div>
@@ -66,7 +80,11 @@ function BadgeDetails(props) {
               lastLocation={badge.lastLocation}
             />
 
-            <h4>Score average: {average}</h4>
+            <h4>
+              Score average:
+              {' '}
+              {average}
+            </h4>
 
           </div>
           <div className='col'>
