@@ -4,10 +4,11 @@ import './styles/BadgeNew.css';
 import header from '../images/platziconf-logo.svg';
 import Badge from '../components/Badge';
 import BadgeForm from '../components/BadgeForm';
+import BadgesListItem from '../components/BadgesListItem';
 import PageLoading from '../components/PageLoading';
 import api from '../api';
-import {db} from '../firebaseDB';
-import {handleChangeImage, handleChange, submitImage} from "../actions/BadgeActions";
+import { db } from '../firebaseDB';
+import { handleChangeImage, handleChange, submitImage } from '../actions/BadgeActions';
 
 class BadgeNew extends React.Component {
   state = {
@@ -17,16 +18,17 @@ class BadgeNew extends React.Component {
       firstName: '',
       lastName: '',
       jobTitle: '',
-      type:'',
-      avatarURL:'',
-      status:'Alive',
-      lastLocation:''
+      type: '',
+      avatarURL: '',
+      status: 'Alive',
+      lastLocation: '',
     },
-    previewPhoto:'',
-    toUploadPhoto: ''
+    cardToGrade: [],
+    previewPhoto: '',
+    toUploadPhoto: '',
   };
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.submitImage = submitImage.bind(this);
@@ -34,21 +36,22 @@ class BadgeNew extends React.Component {
     this.handleChange = handleChange.bind(this);
   }
 
-  handleSubmit = async e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     this.setState({ loading: true, error: null });
 
     try {
-      const imageUrl = await this.submitImage();
-      this.setState({form: { ...this.state.form, avatarURL: imageUrl}});
+      this.setState({ cardToGrade: [...this.state.cardToGrade, this.state.form] });
 
-      db.push(this.state.form);
+      //const imageUrl = await this.submitImage();
+      //this.setState({ form: { ...this.state.form, avatarURL: imageUrl } });
+      //db.push(this.state.form);
+      //this.props.history.push('/badges');
 
       this.setState({ loading: false });
-      this.props.history.push('/badges');
 
     } catch (error) {
-      this.setState({ loading: false, error: error });
+      this.setState({ loading: false, error });
     }
   };
 
@@ -59,24 +62,30 @@ class BadgeNew extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="BadgeNew__hero">
-        </div>
+        <div className='BadgeNew__hero' />
 
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6 col-sm-12">
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-6 col-sm-12'>
+              {this.state.cardToGrade.map((card) => {
+                return (
+                  <li key={card} className='col-md-3 col-sm-12'>
+                    <BadgesListItem badge={card} />
+                  </li>
+                );
+              })}
               <Badge
                 firstName={this.state.form.firstName || 'FIRST_NAME'}
                 lastName={this.state.form.lastName || 'LAST_NAME'}
                 jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
                 type={this.state.form.type || 'TYPE'}
-                avatarURL={this.state.previewPhoto || "https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon"}
+                avatarURL={this.state.previewPhoto || 'https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon'}
                 status={this.state.form.status || 'STATUS'}
                 lastLocation={this.state.form.lastLocation || 'LAST_LOCATION'}
               />
             </div>
 
-            <div className="col-md-6 col-sm-12">
+            <div className='col-md-6 col-sm-12'>
               <h1>New Character</h1>
               <BadgeForm
                 onChange={this.handleChange}
