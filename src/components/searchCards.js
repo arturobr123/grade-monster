@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function UserSearchBadges(badges) {
+function searchCards(badges) {
   const [query, setQuery] = useState('');
   const [type, setType] = useState('');
   const [filteredBadges, setFilteredBadges] = useState(badges);
@@ -29,4 +29,4 @@ function UserSearchBadges(badges) {
   return { query, setQuery, type, setType, filteredBadges };
 }
 
-export default UserSearchBadges;
+export default searchCards;

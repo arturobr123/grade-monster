@@ -8,36 +8,19 @@ class Badge extends React.Component {
   render() {
     return (
       <div className='Badge'>
-
         <div className='Badge__section-name'>
           <Gravatar className='Badge__avatar' avatarURL={this.props.avatarURL} />
           <h3>
             {this.props.firstName}
-            {' '}
             <br />
-            {' '}
-            {this.props.lastName}
           </h3>
         </div>
 
         <div className='Badge__section-info'>
-          <h4>{this.props.jobTitle}</h4>
           <div>
             From:
             {' '}
             {this.props.type}
-          </div>
-          <div>
-            Status:
-            {' '}
-            <strong>{this.props.status}</strong>
-            {' '}
-          </div>
-          <div>
-            Last location:
-            {' '}
-            {this.props.lastLocation}
-            {' '}
           </div>
         </div>
       </div>

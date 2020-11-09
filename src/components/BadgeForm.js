@@ -37,7 +37,7 @@ class BadgeForm extends React.Component {
                 onChange={this.props.onChange}
                 className='form-control'
                 type='text'
-                name='firstName'
+                name='cardName'
                 value={this.props.formValues.firstName}
               />
             </div>
