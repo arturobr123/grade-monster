@@ -1,25 +1,24 @@
 import React from 'react';
 
 import './styles/BadgeNew.css';
+import './styles/CardNew.css';
 import Badge from '../components/Badge';
 import BadgeForm from '../components/BadgeForm';
 import PageLoading from '../components/PageLoading';
 //import api from '../api';
 //import { db } from '../firebaseDB';
 import { handleChangeImage, handleChange, submitImage } from '../actions/BadgeActions';
+import SelectCompany from '../components/SelectCompany';
 
 class BadgeNew extends React.Component {
   state = {
     loading: false,
     error: null,
+    companyGrade: '',
     form: {
-      firstName: '',
-      lastName: '',
-      jobTitle: '',
+      cardName: '',
       type: '',
       avatarURL: '',
-      status: 'Alive',
-      lastLocation: '',
     },
     cardToGrade: [],
   };
@@ -52,49 +51,46 @@ class BadgeNew extends React.Component {
   };
 
   render() {
-    if (this.state.loading) {
+    const { loading, form, error, cardToGrade, companyGrade } = this.state;
+    if (loading) {
       return <PageLoading />;
     }
 
     return (
       <React.Fragment>
         <div className='BadgeNew__hero' />
-
         <div className='container'>
           <div className='row'>
-            <div className='col-md-8 col-sm-12'>
-              <h1>Add Your Card</h1>
+            <div className='col-md-8 col-sm-12 CardForm'>
+              <h3>Which Company to Grade</h3>
+              <SelectCompany
+                onChange={this.handleChange}
+                companyGrade={companyGrade}
+                error={error}
+              />
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col-md-8 col-sm-12 CardForm'>
+              <h3>Add Your Card</h3>
               <BadgeForm
                 onChange={this.handleChange}
                 onChangeImage={this.handleChangeImage}
                 onSubmit={this.handleSubmit}
-                formValues={this.state.form}
-                error={this.state.error}
+                formValues={form}
+                error={error}
               />
             </div>
             <div className='col-md-4 col-sm-12'>
-              {this.state.cardToGrade.map((card) => {
+              {cardToGrade.map((card) => {
                 return (
                   <Badge
-                    firstName={card.firstName}
-                    lastName={card.lastName}
-                    jobTitle={card.jobTitle}
+                    firstName={card.cardName}
                     type={card.type}
                     avatarURL='https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon'
-                    status={card.status}
-                    lastLocation={card.lastLocation}
                   />
                 );
               })}
-              {/* <Badge
-                firstName={this.state.form.firstName || 'FIRST_NAME'}
-                lastName={this.state.form.lastName || 'LAST_NAME'}
-                jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
-                type={this.state.form.type || 'TYPE'}
-                avatarURL={this.state.previewPhoto || 'https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon'}
-                status={this.state.form.status || 'STATUS'}
-                lastLocation={this.state.form.lastLocation || 'LAST_LOCATION'}
-              /> */}
             </div>
           </div>
         </div>
