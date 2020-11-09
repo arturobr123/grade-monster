@@ -11,17 +11,17 @@ class Badge extends React.Component {
 
         <div className='Badge__section-name'>
           <Gravatar className='Badge__avatar' avatarURL={this.props.avatarURL} />
-          <h1>
+          <h3>
             {this.props.firstName}
             {' '}
             <br />
             {' '}
             {this.props.lastName}
-          </h1>
+          </h3>
         </div>
 
         <div className='Badge__section-info'>
-          <h3>{this.props.jobTitle}</h3>
+          <h4>{this.props.jobTitle}</h4>
           <div>
             From:
             {' '}

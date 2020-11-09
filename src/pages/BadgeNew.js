@@ -1,13 +1,11 @@
 import React from 'react';
 
 import './styles/BadgeNew.css';
-import header from '../images/platziconf-logo.svg';
 import Badge from '../components/Badge';
 import BadgeForm from '../components/BadgeForm';
-import BadgesListItem from '../components/BadgesListItem';
 import PageLoading from '../components/PageLoading';
-import api from '../api';
-import { db } from '../firebaseDB';
+//import api from '../api';
+//import { db } from '../firebaseDB';
 import { handleChangeImage, handleChange, submitImage } from '../actions/BadgeActions';
 
 class BadgeNew extends React.Component {
@@ -24,8 +22,6 @@ class BadgeNew extends React.Component {
       lastLocation: '',
     },
     cardToGrade: [],
-    previewPhoto: '',
-    toUploadPhoto: '',
   };
 
   constructor(props) {
@@ -41,7 +37,7 @@ class BadgeNew extends React.Component {
     this.setState({ loading: true, error: null });
 
     try {
-      this.setState({ cardToGrade: [...this.state.cardToGrade, this.state.form] });
+      this.setState({ cardToGrade: [this.state.form, ...this.state.cardToGrade] });
 
       //const imageUrl = await this.submitImage();
       //this.setState({ form: { ...this.state.form, avatarURL: imageUrl } });
@@ -66,27 +62,8 @@ class BadgeNew extends React.Component {
 
         <div className='container'>
           <div className='row'>
-            <div className='col-md-6 col-sm-12'>
-              {this.state.cardToGrade.map((card) => {
-                return (
-                  <li key={card} className='col-md-3 col-sm-12'>
-                    <BadgesListItem badge={card} />
-                  </li>
-                );
-              })}
-              <Badge
-                firstName={this.state.form.firstName || 'FIRST_NAME'}
-                lastName={this.state.form.lastName || 'LAST_NAME'}
-                jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
-                type={this.state.form.type || 'TYPE'}
-                avatarURL={this.state.previewPhoto || 'https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon'}
-                status={this.state.form.status || 'STATUS'}
-                lastLocation={this.state.form.lastLocation || 'LAST_LOCATION'}
-              />
-            </div>
-
-            <div className='col-md-6 col-sm-12'>
-              <h1>New Character</h1>
+            <div className='col-md-8 col-sm-12'>
+              <h1>Add Your Card</h1>
               <BadgeForm
                 onChange={this.handleChange}
                 onChangeImage={this.handleChangeImage}
@@ -94,6 +71,30 @@ class BadgeNew extends React.Component {
                 formValues={this.state.form}
                 error={this.state.error}
               />
+            </div>
+            <div className='col-md-4 col-sm-12'>
+              {this.state.cardToGrade.map((card) => {
+                return (
+                  <Badge
+                    firstName={card.firstName}
+                    lastName={card.lastName}
+                    jobTitle={card.jobTitle}
+                    type={card.type}
+                    avatarURL='https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon'
+                    status={card.status}
+                    lastLocation={card.lastLocation}
+                  />
+                );
+              })}
+              {/* <Badge
+                firstName={this.state.form.firstName || 'FIRST_NAME'}
+                lastName={this.state.form.lastName || 'LAST_NAME'}
+                jobTitle={this.state.form.jobTitle || 'JOB_TITLE'}
+                type={this.state.form.type || 'TYPE'}
+                avatarURL={this.state.previewPhoto || 'https://www.gravatar.com/avatar/21594ed15d68ace396564e84?d=identicon'}
+                status={this.state.form.status || 'STATUS'}
+                lastLocation={this.state.form.lastLocation || 'LAST_LOCATION'}
+              /> */}
             </div>
           </div>
         </div>

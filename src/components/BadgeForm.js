@@ -3,26 +3,35 @@ import React from 'react';
 class BadgeForm extends React.Component {
 
   render() {
-    const options_types = [
-      { id: 1, name: 'All' },
-      { id: 2, name: 'Game of Thrones' },
-      { id: 3, name: 'Marvel' },
-      { id: 4, name: 'Super Smash Bros' },
-    ];
-
-    const options_statuses = [
-      { id: 1, name: 'Alive' },
-      { id: 2, name: 'Dead' },
-      { id: 3, name: 'Unknown' },
+    const card_types = [
+      { id: 1, name: 'Pokemon' },
+      { id: 2, name: 'Sports' },
+      { id: 3, name: 'Digimon' },
     ];
 
     return (
       <div>
         <form onSubmit={this.props.onSubmit}>
+          <div className='form-group'>
+            <label>Card Type</label>
+
+            <select
+              name='type'
+              onChange={this.props.onChange}
+              value={this.props.formValues.type}
+              className='form-control'
+            >
+              {card_types.map((option) => {
+                return (
+                  <option key={option.id}>{option.name}</option>
+                );
+              })}
+            </select>
+          </div>
 
           <div className='row'>
-            <div className='form-group col-6'>
-              <label>First Name</label>
+            <div className='form-group col-12'>
+              <label>Card Name</label>
               <input
                 required
                 onChange={this.props.onChange}
@@ -32,73 +41,6 @@ class BadgeForm extends React.Component {
                 value={this.props.formValues.firstName}
               />
             </div>
-
-            <div className='form-group col-6'>
-              <label>Last Name</label>
-              <input
-                onChange={this.props.onChange}
-                className='form-control'
-                type='text'
-                name='lastName'
-                value={this.props.formValues.lastName}
-              />
-            </div>
-          </div>
-
-          <div className='form-group'>
-            <label>Job Title</label>
-            <input
-              onChange={this.props.onChange}
-              className='form-control'
-              type='text'
-              name='jobTitle'
-              value={this.props.formValues.jobTitle}
-            />
-          </div>
-
-          <div className='form-group'>
-            <label>Where is this Character from ?</label>
-
-            <select
-              name='type'
-              onChange={this.props.onChange}
-              value={this.props.formValues.type}
-              className='form-control'
-            >
-              {options_types.map((option) => {
-                return (
-                  <option key={option.id}>{option.name}</option>
-                );
-              })}
-            </select>
-          </div>
-
-          <div className='form-group'>
-            <label>Last location</label>
-            <input
-              onChange={this.props.onChange}
-              className='form-control'
-              type='text'
-              name='lastLocation'
-              value={this.props.formValues.lastLocation}
-            />
-          </div>
-
-          <div className='form-group'>
-            <label>Status</label>
-
-            <select
-              name='status'
-              onChange={this.props.onChange}
-              value={this.props.formValues.status}
-              className='form-control'
-            >
-              {options_statuses.map((option) => {
-                return (
-                  <option key={option.id}>{option.name}</option>
-                );
-              })}
-            </select>
           </div>
 
           <input
